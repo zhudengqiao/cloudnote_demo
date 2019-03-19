@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	   xmlns:task="http://www.springframework.org/schema/task"
+	   xmlns:context="http://www.springframework.org/schema/context"
+	   xmlns:mvc="http://www.springframework.org/schema/mvc"
+	   xmlns:aop="http://www.springframework.org/schema/aop"
+	   xsi:schemaLocation="http://www.springframework.org/schema/beans
+    http://www.springframework.org/schema/beans/spring-beans.xsd
+    http://www.springframework.org/schema/context
+    http://www.springframework.org/schema/context/spring-context.xsd
+    http://www.springframework.org/schema/mvc
+    http://www.springframework.org/schema/mvc/spring-mvc.xsd
+    http://www.springframework.org/schema/aop
+    http://www.springframework.org/schema/aop/spring-aop.xsd
+	http://www.springframework.org/schema/task http://www.springframework.org/schema/task/spring-task-3.0.xsd">
+
+	<!-- 将多个配置文件读取到容器中，交给Spring管理 -->
+	<bean id="propertyConfigurer"
+		class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+		<property name="locations">
+			<list>
+				<value>classpath:config/*.properties</value>
+			</list>
+		</property>
+	</bean>
+
+	<!-- aspectj aop启用CGliB代理 -->
+	<!--配置包,使另一个系统能够正常注入(autowire)-->
+	<mvc:annotation-driven/>
+	<aop:aspectj-autoproxy expose-proxy="true" proxy-target-class="true"/>
+	<context:annotation-config/>
+	<context:component-scan base-package="com.jlu.cloudnote.service;com.jlu.cloudnote.entity;com.jlu.cloudnote.dao;"/>
+
+
+	<!--加载spring整合的配置文件-->
+	<import resource="classpath:spring/dubbo-provider.xml" />
+	<import resource="classpath:spring/spring-mybatis.xml" />
+	<import resource="classpath:spring/spring-zookeeper.xml" />
+
+</beans>

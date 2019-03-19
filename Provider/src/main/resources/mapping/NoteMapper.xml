@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+
+<mapper namespace="com.jlu.cloudnote.dao.NoteDao">
+
+	<update id="updateBookId" parameterType="com.jlu.cloudnote.entity.Note">
+		update cn_note set
+		cn_notebook_id = #{cn_notebook_id} where cn_note_id = #{cn_note_id}
+	</update>
+	<update id="updateStatus" parameterType="string">
+		update cn_note set
+		cn_note_status_id = '2' where cn_note_id = #{noteId}
+	</update>
+	<insert id="save" parameterType="com.jlu.cloudnote.entity.Note">
+		insert into cn_note(cn_note_id,
+		cn_notebook_id, cn_user_id,
+		cn_note_status_id, cn_note_type_id,
+		cn_note_title, cn_note_body,
+		cn_note_create_time,
+		cn_note_last_modify_time) values (#{cn_note_id},
+		#{cn_notebook_id},
+		#{cn_user_id}, '1', '1', #{cn_note_title}, '',
+		#{cn_note_create_time},
+		#{cn_note_last_modify_time})
+	</insert>
+	<update id="updateNote" parameterType="com.jlu.cloudnote.entity.Note">
+		update cn_note set
+		cn_note_title = #{cn_note_title}, cn_note_body =
+		#{cn_note_body},cn_note_last_modify_time =
+		#{cn_note_last_modify_time}
+		where cn_note_id = #{cn_note_id}
+	</update>
+	<select id="findByBookId" parameterType="string" resultType="map">
+		select cn_note_id, cn_note_title from cn_note where
+		cn_notebook_id =
+		#{bookId} and cn_note_status_id = '1'
+	</select>
+	<select id="findById" parameterType="string"
+	        resultType="com.tedu.cloudnote.entity.Note">
+		select * from cn_note where cn_note_id = #{id}
+	</select>
+	<!-- <insert id="save" parameterType="com.tedu.cloudnote.entity.User"> insert
+		into cn_user(cn_user_id, cn_user_name, cn_user_password, cn_user_desc) values
+		(#{cn_user_id},#{cn_user_name},#{cn_user_password},#{cn_user_desc}) </insert> -->
+	<!-- <insert id="save" parameterType="entity.Emp"> insert into emp_whx values(emp_seq.nextval,
+		#{ename}, #{age}) </insert> <select id="findAll" resultType="entity.Emp">
+		select id, ename, age from emp_whx </select> <update id="update" parameterType="entity.Emp">
+		update emp_whx set ename = #{ename}, age = #{age} where id = #{id} </update>
+		<delete id="delete" parameterType="int"> delete from emp_whx where id = #{id}
+		</delete> 返回Map类型的值 <select id="findById2" parameterType="int" resultType="map">
+		select * from emp_whx where id = #{id} </select> 解决属性名与字段名不一致的情况 <select
+		id="findById3" parameterType="int" resultMap="emp2Map"> select * from emp_whx
+		where id = #{id} </select> 告诉mybatis如何将字段名与实体类的属性名对应起来：只需要将不一样的列出来即可，property：实体类的属性名
+		column：字段名 <resultMap type="entity.Emp2" id="emp2Map"> <result property="empNo"
+		column="id" /> <result property="name" column="ename" /> </resultMap> -->
+</mapper>

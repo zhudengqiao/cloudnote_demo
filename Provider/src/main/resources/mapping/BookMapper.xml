@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<!-- namespace：命名空间，用来区分同名的sql id：在同一个文件里唯一 parameterType：参数类型 resultType：返回的结果类型
+	#{ename}：ename是Emp的属性(mybatis会利用反射机制读取emp对象的属性值) 注意：如果使用Mapper映射器，namespace必须等于Mapper接口的完整的名称 -->
+<mapper namespace="com.jlu.cloudnote.dao.BookDao">
+	<insert id="save" parameterType="com.jlu.cloudnote.entity.Book">
+		insert into cn_notebook
+		(cn_notebook_id, cn_user_id, cn_notebook_type_id, cn_notebook_name,
+		cn_notebook_createtime) values
+		(#{cn_notebook_id},#{cn_user_id},#{cn_notebook_type_id},#{cn_notebook_name},#{cn_notebook_createtime})
+	</insert>
+	<select id="findByUserId" parameterType="string"
+	        resultType="com.jlu.cloudnote.entity.Book">
+		select * from cn_notebook where cn_user_id = #{userId}
+	</select>
+</mapper>
